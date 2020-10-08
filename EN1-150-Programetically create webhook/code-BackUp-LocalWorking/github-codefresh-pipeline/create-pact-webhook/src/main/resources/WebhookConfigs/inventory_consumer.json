@@ -1,0 +1,6 @@
+{
+    "consumerName":"inventory_consumer", 
+	"providerName":"inventory_provider",
+    "projectName": "pactwebhook",
+	"pipelineName":"rk-create-pact-webhook"
+}

@@ -1,0 +1,126 @@
+-->This application will run when you will start..No need to trigger anything.
+-->It will take/checks files from resources/WebConfigs folder. If files not there then error "No filsed" (already tested)
+-->It will check always latest file with last modifed with todays date.
+-->Take the details from latest file like consuemr name, provider name
+-->?check wheather webhook exists or not.. if exists no need to create webhook.
+-->If not exists then create a webhook.
+--?Precondition is "there must a entry for consumer for which webhook will create" other wise error  shows....already tested...
+
+See supported tags here: https://hub.docker.com/_/maven
+-----------------------------------------------------------------------------------------------------
+image: "maven:3.6.3-adoptopenjdk-11" # The image in which command will be executed
+image: 'maven:3.5.2-jdk-8-alpine' # The image in which command will be executed
+
+Open in laptop
+===========================================================================
+
+powershell
+PS C:\Users\pals2\IdeaProjects\EN1-128-130-contractTest\After-Deploy> docker-compose up -d
+
+commandprompt
+
+C:\Users\pals2\IdeaProjects\EN1-128-130-contractTest\After-Deploy\reference-consumer>mvn clean install pact:publish -Dpact.broker.url=http://localhost:8500
+C:\Users\pals2\IdeaProjects\EN1-128-130-contractTest\After-Deploy\reference-producer>mvn clean install -Dpact.verifier.publishResults=true
+
+SBB
+https://wawaappdev.atlassian.net/wiki/spaces/EE/pages/836371343/SBB+-+Pact+Broker+-+Consumer+Driven+Contract+Testing
+
+Codefresh
+https://g.codefresh.io/pipelines
+github
+https://github.com/sambitpal001/create-pact-webhook
+Read webhook from pact site
+https://docs.pact.io/pact_broker/advanced_topics/api_docs/webhooks/
+
+local pact broker
+http://localhost:8500/
+
+IntelliJ
+C:\Users\pals2\IdeaProjects\EN1-128-130-contractTest\After-Deploy\create-pact-webhook\pom.xml
+C:\Users\pals2\IdeaProjects\EN1-128-130-contractTest\After-Deploy\reference-consumer\pom.xml
+C:\Users\pals2\IdeaProjects\EN1-128-130-contractTest\After-Deploy\reference-producer\pom.xml
+C:\Users\pals2\IdeaProjects\EN1-128-130-contractTest\After-Deploy\provider-build\pom.xml
+
+POSTMAN
+DELETE - http://localhost:8500/pacticipants/inventory_consumer
+POST below
+http://localhost:8080/api/inventory   -- Main application
+http://localhost:8500/webhooks/provider/inventory_provider/consumer/inventory_consumer
+https://g.codefresh.io/api/pipelines/run/pactcontract%2Fsp-pact-contract-consumer-dev/  (codefresh and set here Authorization barer token)
+
+GET
+https://g.codefresh.io/api/builds/5f6dcb28c3292242b10937ec  (with above build number from codfresh)
+https://g.codefresh.io/api/workflow/5f6dcb28c329222dec0937ed/status
+http://localhost:8500/webhooks/provider/inventory_provider/consumer/inventory_consumer (GET and POSt both but specific to consumer and provider)
+http://localhost:8500/webhooks/  (GET and POST both)
+==========Codefresh pipeline yaml reference===============================================================================================
+https://github.com/Himanshurock/spring-boot-kafka-binder-basic-example-master  (Himashu codefresh.yaml)
+
+https://github.com/codefresh-contrib/spring-boot-2-sample-app/blob/master/codefresh.yml  (spring boot yaml file reference)
+-------------------------------------------------------------------------------------------------------
+
+https://www.baeldung.com/reading-file-in-java
+
+https://www.baeldung.com/spring-git-information
+
+https://stackoverflow.com/questions/20117148/how-to-create-json-object-using-string
+
+https://howtodoinjava.com/java/library/json-simple-read-write-json-examples/#:~:text=Read%20JSON%20from%20file%20in%20Java%20with%20json%2Dsimple&text=First%20of%20all%2C%20we%20will,type%20i.e.%20JSONArray%20and%20JSONObject%20.
+
+http://zetcode.com/java/httpclient/
+
+https://stackoverflow.com/questions/34455520/java-logging-framework-with-printf-support
+
+https://codefresh.io/docs/docs/learn-by-example/java/spring-boot-2/
+
+https://codefresh.io/docs/docs/codefresh-yaml/steps/launch-composition/
+
+https://codefresh.io/docs/docs/codefresh-yaml/service-containers/
+
+https://codefresh.io/docs/docs/codefresh-yaml/steps/composition/
+
+https://hub.docker.com/repositories
+
+https://docs.pact.io/pact_broker/advanced_topics/api_docs/webhooks/
+
+https://wawaappdev.atlassian.net/wiki/spaces/EE/pages/836371343/SBB+-+Pact+Broker+-+Consumer+Driven+Contract+Testing
+
+https://wawaappdev.atlassian.net/wiki/spaces/EE/pages/897712993/BE+-+Publish+Test+Report+For+Unit+Testing
+
+Testcase140 -open
+PS C:\Users\pals2\IdeaProjects\EN1-128-130-contractTest\After-Deploy> docker-compose up -d
+
+com.wawa.platform.reference
+create-pact-webhook
+
+
+Call from property file( event and authorization)
+Test one time with local url then change to codefresh
+github repo create and add your code.
+Create a AWS account and search in google for credit card (without Wawa VPN works pact but codefreh is not working without Wawa VPN)
+Vijay help to create pact broker...
+
+Crete a trigger in codefresh to start build once code commit
+raise request in codefresh to trgger
+Try for service container for your application,pact broker..
+create a repository in wawa and commit your code as a branch...
+READ.me file should be there with pre condition instruction...and path to put files
+
+
+Observation - 
+->today create a pull request and merged after 1/2 day. Then still in github it will show as yesterady.. but when taking code then its showing current day.
+->1st time webhook will call -->But it need consumer build 2 times
+
+consumer build need to make entry(in pact broker)-->webhook trigger (event-contract publish)-->consumer pact updated or created (consumer build)-->provider build
+event.name=contract_published (both 1st time or modifed working case working tested)
+
+->
+
+============================================================================================================================
+For exit code - In main class of spring boot 
+implements CommandLineRunner and 
+@override
+public void run(String... args) throws Exception
+{
+}
+==========================================================================================================================

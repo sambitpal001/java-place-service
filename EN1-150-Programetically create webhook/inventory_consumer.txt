@@ -1,0 +1,3 @@
+consumer-name=inventory_consumer
+project-name=pactcontract
+pipeline name=sp-pact-contract-consumer-dev

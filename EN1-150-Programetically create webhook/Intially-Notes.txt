@@ -1,0 +1,77 @@
+Codefresh
+progrmaetically call webhook
+create webhook autometically
+
+Api github search
+
+power shell or pulmi?
+github integrate..powershell easy to intgrate
+
+1)Create only one repository "create-pact-webhook-config" and put a foler webhook config this information.
+2)Place the json/txt file with consumer name, project name, pipeline name)
+3)Prepare the webhook body in your code
+4)Temp folder for secreates tokens ..in AWS secret manager
+5)If 10 files are there then it will pick only the new one merged, not the old files
+
+In repositry eveybody will put a json with data....
+consumer name? event?
+
+Anil links
+https://developer.github.com/webhooks/creating/
+
+https://developer.github.com/v3/repos/hooks/#create-a-repository-webhook
+
+
+In local git hub my account, codefresh my account..? Yes.
+
+
+AWS u can open a account and EC registry - u can deploy (docker compose.yml)and access from wawa build-test-deploy pipeline.
+This is public. something below url u can access pact brocker
+http://ec2-15-207-223-119.ap-south-1.compute.amazonaws.com:8500/
+http://15.207.223.119:8500/
+
+Final Approach,
+from codefresh-->open pipeline-->trigger and varibale (in right side)-->push commit in github (set trigger point) with your repository name-->build will start when there is a commit in your mentioned git repository branch.
+
+Maven Commands for codefresh
+=====================================================================================
+mvn -Dmaven.repo.local=/codefresh/volume/m2_repository test    (Only test)
+
+mvn -Dmaven.repo.local=/codefresh/volume/m2_repository clean install pact:publish -Dpact.broker.url=http://ec2-15-207-223-119.ap-south-1.compute.amazonaws.com:8500/    (Pact broker consumer)
+mvn clean install pact:publish -Dpact.broker.url=http://localhost:8500   (Local consumer)
+
+mvn -Dmaven.repo.local=/codefresh/volume/m2_repository clean install -Dpact.verifier.publishResults=true   (Pact broker provider)
+mvn clean install -Dpact.verifier.publishResults=true   (Local provider)
+
+============================================================================================================================
+-->Precondition is contract test must run for that consumer and one entery must be there before creating webhook.
+-->Create a repository in wawa git hub to push code.
+-->Permission need to create a trigger in wawa pipeline
+-->Request for codefresh to connect to local pact broker (how to make local ip as public).
+-->Request for extend to 13th oct 2020.
+-->Start devlopment with your microservice.
+-->Check with Vijay if local pact broker not connect 
+-->Create a branch in your repositry to add your code.
+-->Update SBB
+
+New gmail account created
+-----------------------------------------------------
+raju
+kumar
+raju.kumar0011978@gmail.com
+I@amhere4U
+
+Codefresh Account Name - rajukumar
+
+projectname - pactwebhook
+tag name - webhook
+pipeline - rk-pact-consumer
+
+pactwebhook
+Api key -pactwebhook- 5f75bff4e08fcd6653e4732f.a1928fc270b87e17e4d8f6c52dd9f177
+
+See supported tags here: https://hub.docker.com/_/maven
+-----------------------------------------------------------------------------------------------------
+image: "maven:3.6.3-adoptopenjdk-11" # The image in which command will be executed
+image: 'maven:3.5.2-jdk-8-alpine' # The image in which command will be executed
+

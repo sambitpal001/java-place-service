@@ -1,0 +1,6 @@
+{
+    "consumerName":"<consumer name for which Webhook needs to create, same as this .json file>", 
+	"providerName":"<provider name with the mentioned consumer name>",
+    "projectName": "<Codefresh project name where the above consumer and provider belongs>",    
+	"pipelineName":"<codefresh pipeline name, where the above consumer and provider are available>"      
+}
