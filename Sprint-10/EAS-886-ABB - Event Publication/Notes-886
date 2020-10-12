@@ -1,0 +1,83 @@
+My confluence page - https://wawaappdev.atlassian.net/wiki/spaces/ENTERPRISE/pages/563183785/ABB+-+Event+Publication
+
+Updated Event Module---->Publish action--->Event Bus(Publish/Subscribe channel)--->Services-->Database
+
+EP (acronym) - Event Publication
+ABB-EP-1  -  The event bus will broadcast the integration event passed to it to any microservice, or even an external application, subscribed to that event.
+ABB-EP-2  -  All events in the Wawa landscape follow the CloudEvents v1.0 spec defined at https://github.com/cloudevents/spec/blob/v1.0/spec.md 
+
+peer review for 1060 of schedule and updated with specification part.
+
+
+Problem st - 
+bullet point 2 points.
+problem st covers below points
+
+async point to point
+pub/subscribed
+
+remove link in context 1.2.1
+
+Header should compile cliuld event
+body should compile event should specification Avro schema..ABB specification ...also link it...
+
+For Event data (Header and body) refer to   
+
+
+The problem statement covers the below points
+1 - Asynchronous point to point 
+2 - pub/sub model
+
+1.1.1 Event publication occurs when there is any updates in a business entity during event-based communication. When an event receives, it can update its own business entities, which might lead to more events being published. Example: When an order is placed on UI site, a single "order placed" event is produced and then consumed by several services.
+
+1.1.2 Events can be published in different ways. Example, they can be published to a queue that guarantees delivery of the event to the appropriate consumers, or they can be published to a "pub/sub" model stream that publishes the event and allows access to all interested services. In either case, the producer publishes the event, and the consumer receives that event.
+
+
+CloudEvents v0.3 specification, provides an Open Source specification for describing event data in a common way.
+
+Reference links to prepare the ABB
+-----------------------------------------------------------------------------------
+https://docs.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/integration-event-based-microservice-communications
+
+https://docs.microsoft.com/en-us/previous-versions/msp-n-p/ff649664(v=pandp.10)
+
+https://www.enterpriseintegrationpatterns.com/patterns/messaging/PublishSubscribeChannel.html
+
+https://microservices.io/patterns/data/event-driven-architecture.html
+
+https://en.wikipedia.org/wiki/Event-driven_architecture
+
+https://dzone.com/articles/best-practices-for-event-driven-microservice-archi
+
+https://hackernoon.com/best-practices-for-event-driven-microservice-architecture-e034p21lk
+
+
+For security and network link by Manoj Sharma
+-----------------------------------------------------------------
+https://digitalguardian.com/blog/data-protection-data-in-transit-vs-data-at-rest
+
+https://docs.confluent.io/current/security/index.html
+
+https://www.confluent.io/resources/confluent-cloud-security-overview/
+
+
+For protecting data in transit, enterprises often choose to encrypt sensitive data prior to moving and/or use encrypted connections
+ (HTTPS, SSL, TLS, FTPS, etc) to protect the contents of data in transit.
+ 
+In addition to encryption, best practices for robust data protection for data in transit are 
+1 - Don’t rely on reactive security to protect your valuable company data. Instead, use proactive security measures that identify at-risk data and implement effective data
+ protection for data in transit and at rest.
+2 - Choose data protection solutions with policies that enable user prompting, blocking, or automatic encryption for sensitive data in transit,
+ such as when files are attached to an email message or moved to cloud storage, removable drives, or transferred elsewhere.
+3 - Create policies for systematically categorizing and classifying all company data, no matter where it resides,
+ in order to ensure that the appropriate data protection measures are applied while data remains at rest and triggered when data classified as at-risk is accessed, used, or transferred.
+
+
+Each machine in the cluster has a public-private key pair, and a certificate to identify the machine.
+Therefore, it is important to prevent forged certificates by signing them for each machine in the cluster.
+
+SSL encryption enables 1-way authentication in which the client authenticates the server certificate.
+So in this topic “SSL authentication”, is referring to 2-way authentication, where the broker also authenticates the client certificate. 
+
+
+

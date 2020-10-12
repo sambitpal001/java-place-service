@@ -1,0 +1,45 @@
+Ref -
+For any component or sequence diagrams, please use plant uml:
+https://plantuml.com/component-diagram
+https://plantuml.com/sequence-diagram 
+
+=========Component digram========================================
+@startuml
+
+[Build To Order] --> [Prepared Item] 
+[Prepared Item] -> [Recipe Management System]
+[Recipe Management System] --> [WorkOrder] :Build Instruction
+[WorkOrder] --> [Kitchen System\n <WorkCell>] :Send build instruction
+[Kitchen System\n <WorkCell>]-> [Kitchen Expeditor Screen] :Display
+
+@enduml
+
+==========Sequence Digram============================================
+
+OMS-->Order-->Schedule-->WorkOrder (Workorder create)-->Workcell(WorkOrder completed)-->Release-->Delivery
+
+
+@startuml
+actor OMS
+activate OMS
+OMS -> Build_To_Order 
+  activate Build_To_Order
+    Build_To_Order ->Schedule
+	activate Schedule
+	Schedule -> WorkOrder: <<Prepare product>>
+	activate WorkOrder
+	WorkOrder --> Recipe_Management_System :Request for Instruction	
+	activate Recipe_Management_System
+	Recipe_Management_System --> WorkOrder : receive build instruction
+	WorkOrder -> Workcell: Send build instruction        
+          activate Workcell
+          Workcell -> Expeditor_Screen: display
+		  activate Expeditor_Screen          		    
+				deactivate Expeditor_Screen			 
+			 deactivate Workcell
+			 deactivate Recipe_Management_System
+             deactivate WorkOrder 
+          deactivate Schedule		  
+	    deactivate Build_To_Order
+      deactivate OMS 	
+@enduml

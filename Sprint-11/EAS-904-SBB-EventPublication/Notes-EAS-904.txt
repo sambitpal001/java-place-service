@@ -1,0 +1,104 @@
+Reference Link - 
+https://wawaappdev.atlassian.net/wiki/spaces/ENTERPRISE/pages/486474701/Order+Fulfillment+Flows  (Order flow sequence digram)
+
+https://docs.spring.io/spring-cloud-stream/docs/current/reference/htmlsingle/  - sujeet gave for "spring cloud stream kalfka"
+
+https://medium.com/@joaquin.alfaro/implementing-event-driven-in-magnolia-cms-using-kafka-e9722eb43e7a
+
+https://dzone.com/articles/microservices-in-publish-subscribe-communication-u
+
+https://dzone.com/articles/simple-event-driven-microservices-with-spring-clou
+
+https://dzone.com/articles/spring-cloud-stream-with-kafka  (Reference implementation of Cloud sping kafka- Sujeet and Manoj told)
+
+https://www.confluent.io/blog/apache-kafka-for-service-architectures/
+
+https://tanzu.vmware.com/content/intersect/introduction-to-event-driven-architecture-and-apache-kafka
+
+https://kafka.apache.org/documentation/#uses
+
+https://github.com/wawa/core-apaas-app-starters/tree/master/starters/core-apaas-event-publisher-starter  (Manoj S gave sample code sniipet to use)
+
+https://www.confluent.io/blog/schema-registry-avro-in-spring-boot-application-tutorial/ - AVRO schema registry.
+
+https://wawaappdev.atlassian.net/wiki/spaces/ENTERPRISE/pages/547324285/System+NCR+Interface+Features  - Douglous gave
+
+
+The problem statement covers the below points
+1 - Building message-driven micro-services
+2 - Publish-Subscribe communication
+
+Spring Cloud Stream is a framework for building message-driven microservice applications.Spring Cloud Stream builds upon Spring Boot to create standalone, production-grade Spring applications and uses Spring Integration to provide connectivity to message brokers.
+
+The Binder Abstraction
+
+Spring Cloud Stream uses Spring Boot for configuration, and the Binder abstraction makes it possible for a Spring Cloud Stream application to be flexible in how it connects to 
+middleware. For example, deployers can dynamically choose, at runtime, the destinations (such as the Kafka topics) to which channels connect.
+
+Such configuration need to mention through external configuration properties and in any form supported by Spring Boot.
+(including application arguments, environment variables, and application.yml or application.properties files)
+
+Context
+
+Publish-Subscribe Messaging systems play an important role in any enterprise architecture as it enables reliable integration without tightly coupling the applications. 
+With Brokered messaging, the queue is the broker that retains a message created by a producer and where the consumer can retrieve the message when ready.
+Messages in a Queue are organized by first-in, first-out (FIFO) and each message is expected to be processed by a single consumer; however, Topics and Subscriptions constitute
+a publish/subscribe pattern allowing the same message to be processed by N number of consumers.
+
+An event bus is a middleman which take care of publish/subscribe-style communication between microservices without requiring the components to explicitly be aware of each other.
+An event bus is typically composed of two parts:
+a-The abstraction or interface.
+b-One or more implementations.
+For the payload of the events refer to Architecture Building Block - Event Specification  section 1.3.2 and 5.2.
+
+
+Design Link - https://dzone.com/articles/spring-cloud-stream-with-kafka
+
+Rules
+
+1 - Governance of Kafka infrastructure components will be controlled by Integration Platform team in all environments.
+2 - Kafka topic,partition count should be approved and merged by the IP team.
+3 - Kafka will do partition distribution by the key of the message. MUST
+4 - Topic access will control by ACL. MUST
+5 - 
+
+Solution
+
+Spring Cloud Stream is a framework built upon Spring Boot for building message-driven microservices.
+
+Kafka
+--------
+Kafka is a distributed publish-subscribe messaging system that is fast, scalable and distributed in nature by its design, partitioned and replicated commit log service.
+
+Kafka has following characteristics that set it apart from traditional enterprise message queues and service buses.
+1 - Kafka is a distributed platform, meaning data can be replicated across a cluster of servers for fault tolerance, including geo-location support.
+2 - As compared to the traditional queueing and publish-subscribe models, Kafka offers a hybrid model that combines the advantages of
+ both: message-processing remains scalable even when messages are received by multiple consumers.
+3 - Kafka provides durability through replication. This means messages are written to a configurable number of machines so that, should one or more
+ of those machines fail, the messages will not be lost. If you configure a replication factor of three, two machines can be lost without losing data.
+4 - When using Kafka for Event Sourcing or Stream Processing, in the same cluster through which different services communicate, we typically want to
+ segregate private, internal topics from shared, business topics.
+5 - Kafka offers a stream-processing API that allows for complex transformations of data as it’s passed between service endpoints.
+6 - It offers strong guarantees that messages will be received in the chronological order in which they were published.
+
+communication between two microservices built with Spring Boot micro-framework v2.1.8.RELEASE in publish-subscribe context, using Apache Kafka 2.3.1 as a message system.
+
+Zookeeper
+--------
+ZooKeeper is used to manage and coordinate the Kafka broker. Each Kafka broker is coordinated with other Kafka brokers using ZooKeeper. 
+The producer and consumer are notified by the ZooKeeper service about the presence of a new broker or failure of the broker in the Kafka system.
+From the notification received by the Zookeeper regarding the presence or failure of the broker, producer and consumer takes the decision and start
+coordinating its work with some other broker. Also, it is responsible to choose the new leaders for the partitions.
+
+
+It defines a custom annotation @EventPublisher which when placed on a Spring bean method assumes that the return value of the method is an event that needs to be published.
+
+It is recommended to use the annotation based event publisher wherever possible but there might be certain situations where it isn't possible to do that and in those situations you can more explicit you can inject StreamPublisher bean directly and publish events using that. So if we had to change the above example to use the StreamPublisher it would become:
+
+
+Wawa will use Apache Kafka as the core messaging bus which is used in conjunction with Apache Zookeeper. 
+All messages published and consumed through the MSK cluster will use the AVRO format.  
+Each Wawa Domain to have it's own Topic.
+Kafka will do partition distribution by the key of the message. AVRO is the agreed upon standard wire format for a Kafka message.
+If a micro-service transaction involves producing on a Kafka topic and the act of producing fails for any reason the whole micro-service transaction and 
+all participating actors should rollback.

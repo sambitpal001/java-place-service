@@ -1,0 +1,65 @@
+﻿Description
+
+As an architect, I require that a SBB artifact should be created for build instructions system of Wawa fulfillment domain which will serve as its solution for the Wawa digital platform.
+
+Acceptance criteria
+
+GIVEN a SBB for build instruction
+WHEN the SBB details the solution for build instruction
+THEN the SBB will be considered as the solution for build instruction for Wawa digital platform,
+
+GIVEN a SBB for build instruction
+WHEN the SBB details the solution for build instruction
+THEN the SBB will be referred for reference implementation of build instruction functionalities in OMS fulfillment system.
+
+NOTE: The document status should be approved in confluence and linked to this user story, for marking it as complete.
+
+Reference Link -
+https://wawaappdev.atlassian.net/wiki/spaces/ENTERPRISE/pages/325714066/Decision+Build+Instructions+Generator
+
+
+
+
+The problem statement covers the below points
+1 - Integrate build to order with Recipe management system
+2 - Fetch the BOM (Bill Of Material) for a product and the appropriate recipe.
+3 - Send the recipe details to Kitchen system.
+
+
+Context
+----------------
+Build to order (BTO) order placed by customer must get the build or recipe instruction from Recipe management System (RMS), So that Kitchen system can prepare the product for fulfillment.
+Following points helps to use this SBB
+1 - Build Instructions are Recipes.
+2 - Order placed by customer have prepared product and customer has choose the store for fulfillment.
+3 - Generate request from OMS to get the build instruction.
+4 - Prepared product must have workorder/task for store kitchen system.
+5 - Build instruction received should sent to kitchen system at orderline and displayed in kitchen expeditor screen.
+
+If any ordered item/product is prepared within the Wawa store then its termed as prepared product such as Hoagie, sandwich, milkshake, bowl etc. Wawa manufactured
+item or third-party item which is already packaged and ready to be sold is termed as finished product such as bottle of water, a bag of chips, soda can, prepackaged sandwiches etc. 
+
+Solution
+
+1 - Build to order received at OMS 
+Refer
+2 - WorkOrder created on schedule
+schedule link
+3 - Add BOMXML attribute in input xml
+Extend the input XML of before create worko rder userexit to add the attributes.
+Xpath - /repository/xapi/template/merged/apisecurity/beforeCreateWorkOrderUE_input.xml
+4 - Get the Build instruction from RMSOMS will send the request to Recipe management System and RMS will expose a service as webservice.
+ OMS will call that webservice to get the build instruction against the request.
+Input to Recipe management System : Product id/options/ingredients  and Quantity. Its detail xml structure <TBD>
+The call to RMS will be on VASBeforeCreateWorkOrderUE. So this userexit needs to implement on CREATE_WORK_ORDER transaction.
+Application Platform<Enterprise> -->Process modeling-->WorkOrder-->VASProcess-->Transaction-->Create Work Order
+
+Class  - com.wawa.oms.order.userexit.WawaBeforeCreateWorkOrderUEImpl
+Method - beforeCreateWorkOrder(). Implement to get the build instruction from RMS.
+
+5 - Send the response to Kitchen
+Insert the response of RMS to the BOMXML attribute at OrderLine of the input xml to VASBeforeCreateWorkOrderUE.
+Then return the input xml which will move to flow of kitchen workorder.
+
+ 
+

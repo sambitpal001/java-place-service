@@ -1,0 +1,46 @@
+Ref -
+For any component or sequence diagrams, please use plant uml:
+https://plantuml.com/component-diagram
+https://plantuml.com/sequence-diagram 
+
+=========Component digram========================================
+@startuml
+
+[Sales Order] --> [Prepared Item] 
+[Sales Order] -> [Finished Item]
+[Prepared Item] --> [Kitchen System\n <WorkCell>] :WorkOrder : Route
+[Finished Item] --> [Store] :Route
+[Kitchen System\n <WorkCell>]-> [Delivery Workstation] :Route: {Delivery method}
+[Store] --> [Delivery Workstation] :Route: {Delivery method}
+
+@enduml
+
+==========Sequence Digram============================================
+
+OMS-->Order-->Schedule-->WorkOrder (Workorder create)-->Workcell(WorkOrder completed)-->Release-->Delivery
+
+
+@startuml
+actor OMS
+activate OMS
+OMS -> Order 
+  activate Order
+	Order -> Schedule
+	    activate Schedule
+	    Schedule --> WorkOrder: <<Prepare product>>
+		activate WorkOrder
+        WorkOrder -> Workcell: Workorder created
+          activate Workcell
+          Workcell -> Release: WorkOrder completed
+		  activate Release
+          Release -> Expeditor_WorkCell: Route
+             activate Expeditor_WorkCell
+			 Schedule -> Release : <<Finished product>>			    
+				deactivate Expeditor_WorkCell			 
+			 deactivate Release
+			 deactivate Workcell
+             deactivate WorkOrder 
+          deactivate Schedule
+	    deactivate Order
+      deactivate OMS 	
+@enduml

@@ -1,0 +1,20 @@
+ACL / Translation - Order to OMS 
+
+Create order Translation
+- route 
+
+Modify order Translation
+- Add a new line item
+- Remove line item 
+- Update line item quantity 
+- Update date/time (schedule)
+- Update store (route)
+Cancel Order Translation
+
+
+ACL / Translation - OMS to Order (any time order status changes)
+Order Ack (printed)
+Order scheduled 
+Order delivered  
+ 
+https://wawaappdev.atlassian.net/wiki/spaces/ENTERPRISE/pages/486474701/Order+Fulfillment+Flows  (Order flow sequence digram)

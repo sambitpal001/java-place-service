@@ -1,0 +1,22 @@
+Ref -
+For any component or sequence diagrams, please use plant uml:
+https://plantuml.com/component-diagram
+https://plantuml.com/sequence-diagram 
+
+
+@startuml
+
+[Microservice\n <Producer>] -> [Kafka\n Event Bus] : Publish event :JSON{:}
+[Kafka\n Event Bus] --> [Microservice\n <Subscriber1>] :Event :JSON{:}
+[Kafka\n Event Bus] --> [Microservice\n <Subscriber>] :Event :JSON{:}
+
+@enduml
+
+
+@startuml
+
+[Producer] -> [Kafka\n Event Bus] : JSON{:}
+[Kafka\n Event Bus] -> [Consumer] :JSON{:}
+
+@enduml
+
